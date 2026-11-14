@@ -59,12 +59,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the branch and pull-request workflow.
 
 | # | Role | Member |
 |---|---|---|
-| 1 | Flood Detection Algorithm Developer | TBD |
-| 2 | NISAR Data Engineer | TBD |
-| 3 | Frontend & UI Developer | TBD |
-| 4 | Backend & Integration Developer | Mohammed |
+| 1 | Flood Detection Algorithm Developer | Basma (@bassmahossam083-cpu) |
+| 2 | NISAR Data Engineer | Ali (@Ali-AL-Zahrani) |
+| 3 | Frontend & UI Developer | Fares |
+| 4 | Backend & Integration Developer | Mohammed (@4mohammedalqahtani-svg) |
 | 5 | SAR Signal Processing Engineer | TBD |
-| 6 | Scientific Validation & Reliability Engineer | TBD |
+| 6 | Scientific Validation & Reliability Engineer | @aammmf10 |
 
 ## Submission checklist (closes 15 Nov 2026, 11:59 PM local time)
 
