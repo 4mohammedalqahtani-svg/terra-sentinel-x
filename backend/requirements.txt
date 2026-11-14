@@ -1,0 +1,7 @@
+# backend/ scripts. validate.py and serve.py need only the standard library.
+numpy>=1.24
+Pillow>=10.0
+rasterio>=1.3      # only needed when the pipeline reads GeoTIFFs
+jsonschema>=4.18   # optional: stricter checks in validate.py
+scipy>=1.10        # vectorize.py: connected areas
+shapely>=2.0       # vectorize.py: polygon simplification

@@ -45,11 +45,33 @@ NISAR scenes (ASF / Earthdata)
 
 All outputs exchanged between roles follow [`schema/`](schema/README.md): rasters as **GeoTIFF/PNG**, vector results and metadata as **GeoJSON/JSON**.
 
-## Getting started
+## Live demo
+
+**https://4mohammedalqahtani-svg.github.io/terra-sentinel-x/** (deployed from `main` by GitHub Actions)
+
+## Run it locally
+
+Needs Python 3.10+.
 
 ```bash
 git clone https://github.com/4mohammedalqahtani-svg/terra-sentinel-x.git
 cd terra-sentinel-x
+pip install -r backend/requirements.txt
+python backend/serve.py            # open http://localhost:8000
+```
+
+To publish a new analysis run from the team's outputs:
+
+```bash
+python backend/pipeline.py --run-id <id> --aoi "<area name>" --collect <folder with before.tif, after.tif, changes.geojson>
+python backend/validate.py --all
+```
+
+Details: [`backend/README.md`](backend/README.md).
+
+## Getting started (contributors)
+
+```bash
 git checkout -b <your-role>/<short-task>   # e.g. algorithm/threshold-detection
 ```
 

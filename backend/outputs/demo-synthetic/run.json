@@ -1,0 +1,57 @@
+{
+  "run_id": "demo-synthetic",
+  "aoi_name": "Jeddah, Saudi Arabia (synthetic demo)",
+  "event": "Synthetic flood for frontend development - NOT real NISAR data",
+  "demo": true,
+  "crs": "EPSG:4326",
+  "bounds": [
+    39.1,
+    21.45,
+    39.3,
+    21.65
+  ],
+  "before": {
+    "scene_id": "SYNTHETIC-BEFORE",
+    "date": "2026-10-20",
+    "png": "before.png",
+    "polarization": "HH",
+    "product": "GCOV"
+  },
+  "after": {
+    "scene_id": "SYNTHETIC-AFTER",
+    "date": "2026-11-01",
+    "png": "after.png",
+    "polarization": "HH",
+    "product": "GCOV"
+  },
+  "change_map": {
+    "png": "change_map.png"
+  },
+  "doubt_map": {
+    "png": "doubt_map.png"
+  },
+  "changes": "changes.geojson",
+  "method": {
+    "name": "log-ratio threshold",
+    "threshold_db": -3.0,
+    "thresholds_tested_db": [
+      -1.5,
+      -2.0,
+      -2.5,
+      -3.0,
+      -3.5,
+      -4.0,
+      -4.5,
+      -5.0,
+      -5.5,
+      -6.0
+    ],
+    "speckle_filter": "7x7 mean (boxcar)"
+  },
+  "generated_at": "2026-11-14T16:35:54Z",
+  "summary": {
+    "n_changes": 4,
+    "total_area_km2": 15.959,
+    "n_high_doubt": 1
+  }
+}

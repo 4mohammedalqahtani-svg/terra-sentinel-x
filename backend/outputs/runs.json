@@ -1,0 +1,23 @@
+{
+  "default": "chokwe-2026-01",
+  "runs": [
+    {
+      "run_id": "chokwe-2026-01",
+      "aoi_name": "Chokwe, Gaza Province, Mozambique",
+      "event": "Limpopo River flood, January 2026",
+      "demo": false,
+      "before_date": "2026-01-05",
+      "after_date": "2026-01-17",
+      "path": "chokwe-2026-01/run.json"
+    },
+    {
+      "run_id": "demo-synthetic",
+      "aoi_name": "Jeddah, Saudi Arabia (synthetic demo)",
+      "event": "Synthetic flood for frontend development - NOT real NISAR data",
+      "demo": true,
+      "before_date": "2026-10-20",
+      "after_date": "2026-11-01",
+      "path": "demo-synthetic/run.json"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/4mohammedalqahtani-svg/terra-sentinel-x/schema/changes.schema.json",
+  "title": "TERRA-SENTINEL X change areas (changes.geojson)",
+  "description": "Change polygons produced by algorithm/ and scored by validation/. Coordinates are EPSG:4326 [lon, lat].",
+  "type": "object",
+  "required": ["type", "features"],
+  "properties": {
+    "type": { "const": "FeatureCollection" },
+    "properties": {
+      "type": "object",
+      "properties": {
+        "run_id": { "type": "string" },
+        "method": { "type": "string" },
+        "threshold_db": { "type": "number" }
+      }
+    },
+    "features": { "type": "array", "items": { "$ref": "#/$defs/feature" } }
+  },
+  "$defs": {
+    "feature": {
+      "type": "object",
+      "required": ["type", "id", "geometry", "properties"],
+      "properties": {
+        "type": { "const": "Feature" },
+        "id": { "type": "string", "description": "Stable id, e.g. chg-0001. Used to link the map and the Evidence Card." },
+        "geometry": {
+          "type": "object",
+          "required": ["type", "coordinates"],
+          "properties": { "type": { "enum": ["Polygon", "MultiPolygon"] } }
+        },
+        "properties": {
+          "type": "object",
+          "required": ["change_type", "area_km2", "evidence", "reliability"],
+          "properties": {
+            "change_type": {
+              "enum": ["likely_flood", "possible_flood", "other_change"],
+              "description": "likely_flood = strong backscatter drop (open water); possible_flood = weaker drop or flooded vegetation; other_change = change not linked to flooding."
+            },
+            "area_km2": { "type": "number", "minimum": 0 },
+            "evidence": {
+              "type": "object",
+              "description": "Evidence Card content. Values are means over the polygon, in dB.",
+              "required": ["before_backscatter_db", "after_backscatter_db", "delta_db", "reason"],
+              "properties": {
+                "before_backscatter_db": { "type": "number" },
+                "after_backscatter_db": { "type": "number" },
+                "delta_db": { "type": "number", "description": "after - before." },
+                "polarization": { "type": "string", "enum": ["HH", "HV", "VH", "VV"] },
+                "pixel_count": { "type": "integer", "minimum": 0 },
+                "reason": { "type": "string", "description": "One plain-English sentence shown on the card." }
+              }
+            },
+            "reliability": {
+              "type": "object",
+              "description": "Smart Doubt, filled by validation/.",
+              "required": ["confidence", "doubt_level"],
+              "properties": {
+                "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+                "stable_across_thresholds": { "type": "number", "minimum": 0, "maximum": 1 },
+                "doubt_level": { "enum": ["low", "medium", "high"], "description": "high = needs review." },
+                "notes": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

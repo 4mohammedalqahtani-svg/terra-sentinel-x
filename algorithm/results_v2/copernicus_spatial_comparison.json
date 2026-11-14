@@ -1,0 +1,22 @@
+{
+  "reference": "Copernicus EMSR857 AOI11 Grading Monitoring 1, observedEventA",
+  "reference_acquisition_date": "2026-01-27",
+  "nisar_after_date": "2026-01-17",
+  "comparison": "Exploratory spatial agreement only; NOT validated accuracy",
+  "reference_category": "Flooded area only; Flood trace excluded",
+  "common_analyzed_pixels": 1865,
+  "reference_flooded_pixels": 290,
+  "nisar_candidate_pixels": 370,
+  "intersection_pixels": 174,
+  "intersection_km2": 0.6264,
+  "share_reference_overlapping_nisar_percent": 60.0,
+  "share_nisar_overlapping_reference_percent": 47.03,
+  "pixel_area_km2": 0.0036,
+  "notes": [
+    "10-day mismatch between acquisition dates prevents accuracy claims",
+    "Only common, analyzed AOI and valid NISAR pixels included",
+    "Rasterization uses center-of-pixel criterion",
+    "Copernicus Flood trace excluded; only Flooded area included",
+    "NISAR BETA change candidates are unvalidated"
+  ]
+}
