@@ -8,8 +8,7 @@
 
 Event: January 2026 Limpopo flood, Chókwè, Mozambique. Scenes, IDs and quality: [`docs/DATA_SOURCES.md`](../docs/DATA_SOURCES.md) and [`scenes_provenance.json`](scenes_provenance.json).
 
-**GeoTIFFs (shared by link, not in git):** `before.tif`, `after.tif`, `control.tif`
-→ **Get it:** `terra_sentinel_data.zip`, shared by Ali in the team WhatsApp group → unzip into `data/processed/`
+**GeoTIFFs:** `before.tif`, `after.tif`, `control.tif` are committed in `data/samples/` (~2 MB each), so `data/prepare.py` works right after a clone. To use other files, put them in `data/processed/` or pass `--src`.
 
 | File | Content |
 |---|---|

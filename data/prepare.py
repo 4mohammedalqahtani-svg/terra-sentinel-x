@@ -47,6 +47,8 @@ def main() -> None:
     names = ["before", "after"] + (["control"] if args.with_control else [])
     for name in names:
         src = Path(args.src) / f"{name}.tif"
+        if not src.is_file() and args.src == str(DEFAULT_SRC):
+            src = SAMPLES / f"{name}.tif"  # committed copy in data/samples/
         if not src.is_file():
             raise SystemExit(f"[data] missing {src}: download the data zip (shared in the team WhatsApp group, see data/README.md) into data/processed/")
         shutil.copy2(src, out / f"{name}.tif")

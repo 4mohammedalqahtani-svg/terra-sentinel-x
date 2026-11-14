@@ -32,6 +32,9 @@ data/processed/*
 *.tif
 *.tiff
 !**/samples/*.tif
+# Small team rasters (a few MB each) kept in git so the pipeline runs after a clone
+!algorithm/data/*.tif
+!algorithm/results_v2/*.tif
 
 # OS / editors
 .DS_Store

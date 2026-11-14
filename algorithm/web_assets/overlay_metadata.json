@@ -1,0 +1,33 @@
+{
+  "project": "TERRA-SENTINEL X",
+  "site": "Chokwe, Gaza, Mozambique",
+  "source": "NISAR GCOV BETA (HH+HV), 2026-01-05 and 2026-01-17",
+  "coordinate_system": "EPSG:4326",
+  "leaflet_bounds": [
+    [
+      -24.735124692072514,
+      32.664707511361456
+    ],
+    [
+      -24.398953023923,
+      33.31324594542537
+    ]
+  ],
+  "image_size_pixels": {
+    "width": 1117,
+    "height": 579
+  },
+  "assets": {
+    "flood_candidates": "flood_candidates_overlay.png",
+    "smart_doubt": "smart_doubt_overlay.png"
+  },
+  "legend": {
+    "flood_candidates": "Yellow: radar darkening consistent with possible water-related change",
+    "smart_doubt": {
+      "yellow": "passed relaxed threshold only",
+      "orange": "passed relaxed and baseline thresholds",
+      "magenta": "passed all three thresholds"
+    }
+  },
+  "limitations": "Not confirmed flood extent; NISAR BETA observations are uncalibrated for this purpose; Smart Doubt measures threshold sensitivity, not probability or accuracy. Copernicus validation layer is 10 days later."
+}
