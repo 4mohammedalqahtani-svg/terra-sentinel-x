@@ -1,0 +1,251 @@
+{
+  "project": "TERRA-SENTINEL X",
+  "prepared_by": "NISAR Data Engineer",
+  "study_area": {
+    "name": "Chokwe, Gaza Province, Mozambique (Limpopo River)",
+    "aoi_wkt_epsg4326": "POLYGON((32.6656 -24.735,33.3124 -24.735,33.3124 -24.399,32.6656 -24.399,32.6656 -24.735))",
+    "inside_frame_footprint": true
+  },
+  "dataset": {
+    "name": "NISAR L2 GCOV BETA V1",
+    "doi": "10.5067/NIL2GCOV-B1",
+    "doi_url": "https://doi.org/10.5067/NIL2GCOV-B1",
+    "producer": "NASA JPL",
+    "distributor": "Alaska Satellite Facility (ASF DAAC)",
+    "license": "CC0-1.0",
+    "maturity": "BETA / uncalibrated - not validated for flood mapping"
+  },
+  "pair_compatibility": {
+    "same_track_frame": true,
+    "same_orbit_direction": true,
+    "same_polarization_mode": true,
+    "same_time_of_day_utc": "03:42",
+    "repeat_interval_days": 12,
+    "same_processing_software": true,
+    "verdict": "All three acquisitions are geometrically and radiometrically comparable repeat-pass observations"
+  },
+  "frame_wide_brightness_change_dB": {
+    "control_to_before (24 Dec -> 5 Jan)": {
+      "HH": -0.82,
+      "HV": -0.26
+    },
+    "before_to_after (5 Jan -> 17 Jan)": {
+      "HH": 3.07,
+      "HV": 2.13
+    },
+    "note": "Frame-wide means from ISO metadata (full frame, not only the AOI). Pre-flood pair is stable; the event pair shows a frame-wide increase, consistent with wet soil after rainfall. A per-acquisition calibration difference cannot be fully excluded for BETA data."
+  },
+  "project_processing": {
+    "extraction_script": "nisar_extract_v3.py (before/after), nisar_extract_v4.py (control, grid-locked)",
+    "method": "GDAL /vsicurl remote read of the AOI only; georeferencing from HDF5 xCoordinates/yCoordinates/projection",
+    "output_pixel_spacing_m": 60,
+    "resampling": "nearest (keeps 1 of 36 native 10 m pixels; 'average' would reduce speckle)",
+    "output_grid": "1093 x 620 px, EPSG:32736, identical for all dates",
+    "layers": [
+      "HHHH power",
+      "HVHV power",
+      "mask (0 invalid, 1-254 valid subswath, 255 outside footprint)"
+    ],
+    "edge_pixels": "794 zero/invalid pixels lie on the AOI border (cutline fill), not radar-rejected pixels"
+  },
+  "scenes": [
+    {
+      "role": "control",
+      "description": "Pre-flood control (no-flood reference for false-alarm test)",
+      "acquisition_date": "2025-12-24",
+      "granule_id": "NISAR_L2_PR_GCOV_008_114_A_165_4005_DHDH_A_20251224T034231_20251224T034253_X05010_N_P_J_001",
+      "data_url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_008_114_A_165_4005_DHDH_A_20251224T034231_20251224T034253_X05010_N_P_J_001/NISAR_L2_PR_GCOV_008_114_A_165_4005_DHDH_A_20251224T034231_20251224T034253_X05010_N_P_J_001.h5",
+      "acquisition_start_utc": "2025-12-24T03:42:31Z",
+      "acquisition_end_utc": "2025-12-24T03:42:54Z",
+      "cycle": 8,
+      "track": 114,
+      "frame": 165,
+      "absolute_orbit": 2116,
+      "orbit_direction": "Ascending",
+      "look_direction": "Left",
+      "frame_coverage": "Partial (full frame flag = False)",
+      "polarization_mode": "DHDH (dual-pol HH/HV)",
+      "covariance_terms_used": [
+        "HHHH",
+        "HVHV"
+      ],
+      "frequency_A": {
+        "center_hz": 1239000000.0,
+        "range_bandwidth_hz": 40000000.0
+      },
+      "native_pixel_spacing_m": 10.0,
+      "native_grid_rows_cols": [
+        33120,
+        32040
+      ],
+      "crs": "EPSG:32736 (UTM 36S, WGS84)",
+      "processing": {
+        "processed_utc": "2026-02-12T04:03:35Z",
+        "software": "GCOV_L_PGE R05.00.8 (ISCE 0.25.7)",
+        "product_edition": "1.0.2",
+        "crid": "X05010",
+        "radiometric_terrain_correction": true,
+        "orbit_type": "MOE",
+        "DEM": "NISAR DEM v1.2 (Copernicus DEM 30 m)"
+      },
+      "rfi_likelihood_freqA": {
+        "HH": 0.00183136398986478,
+        "HV": 0.0018188204008931035
+      },
+      "qa_summary": {
+        "open_file": "PASS",
+        "coordinate_grid_cubes": "PASS",
+        "calibration_LUTs": "PASS (crosstalk LUTs skipped)",
+        "identification_group_checks": "FAIL (metadata/identification fields only; pixel-level checks passed)",
+        "nan_inf_fill_near_zero_HHHH_HVHV_freqA_freqB": "PASS",
+        "qa_completed_without_exceptions": "PASS"
+      },
+      "frame_mean_power_freqA": {
+        "HHHH": 0.12105061858892441,
+        "HVHV": 0.024513421580195427,
+        "HHHH_dB": -9.17,
+        "HVHV_dB": -16.11
+      },
+      "metadata_files": [
+        "NISAR_L2_PR_GCOV_008_114_A_165_4005_DHDH_A_20251224T034231_20251224T034253_X05010_N_P_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_008_114_A_165_4005_DHDH_A_20251224T034231_20251224T034253_X05010_N_P_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_008_114_A_165_4005_DHDH_A_20251224T034231_20251224T034253_X05010_N_P_J_001.kml"
+      ],
+      "browse_image": "NISAR_L2_PR_GCOV_008_114_A_165_4005_DHDH_A_20251224T034231_20251224T034253_X05010_N_P_J_001.png"
+    },
+    {
+      "role": "before",
+      "description": "Before (pre-flood baseline for change detection)",
+      "acquisition_date": "2026-01-05",
+      "granule_id": "NISAR_L2_PR_GCOV_009_114_A_165_4005_DHDH_A_20260105T034232_20260105T034253_X05010_N_P_J_001",
+      "data_url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_009_114_A_165_4005_DHDH_A_20260105T034232_20260105T034253_X05010_N_P_J_001/NISAR_L2_PR_GCOV_009_114_A_165_4005_DHDH_A_20260105T034232_20260105T034253_X05010_N_P_J_001.h5",
+      "acquisition_start_utc": "2026-01-05T03:42:32Z",
+      "acquisition_end_utc": "2026-01-05T03:42:54Z",
+      "cycle": 9,
+      "track": 114,
+      "frame": 165,
+      "absolute_orbit": 2289,
+      "orbit_direction": "Ascending",
+      "look_direction": "Left",
+      "frame_coverage": "Partial (full frame flag = False)",
+      "polarization_mode": "DHDH (dual-pol HH/HV)",
+      "covariance_terms_used": [
+        "HHHH",
+        "HVHV"
+      ],
+      "frequency_A": {
+        "center_hz": 1239000000.0,
+        "range_bandwidth_hz": 40000000.0
+      },
+      "native_pixel_spacing_m": 10.0,
+      "native_grid_rows_cols": [
+        33120,
+        32040
+      ],
+      "crs": "EPSG:32736 (UTM 36S, WGS84)",
+      "processing": {
+        "processed_utc": "2026-02-12T04:07:44Z",
+        "software": "GCOV_L_PGE R05.00.8 (ISCE 0.25.7)",
+        "product_edition": "1.0.2",
+        "crid": "X05010",
+        "radiometric_terrain_correction": true,
+        "orbit_type": "MOE",
+        "DEM": "NISAR DEM v1.2 (Copernicus DEM 30 m)"
+      },
+      "rfi_likelihood_freqA": {
+        "HH": 0.0018829654606644316,
+        "HV": 0.0018732761015186458
+      },
+      "qa_summary": {
+        "open_file": "PASS",
+        "coordinate_grid_cubes": "PASS",
+        "calibration_LUTs": "PASS (crosstalk LUTs skipped)",
+        "identification_group_checks": "FAIL (metadata/identification fields only; pixel-level checks passed)",
+        "nan_inf_fill_near_zero_HHHH_HVHV_freqA_freqB": "PASS",
+        "qa_completed_without_exceptions": "PASS"
+      },
+      "frame_mean_power_freqA": {
+        "HHHH": 0.10019687563180923,
+        "HVHV": 0.023063408210873604,
+        "HHHH_dB": -9.99,
+        "HVHV_dB": -16.37
+      },
+      "metadata_files": [
+        "NISAR_L2_PR_GCOV_009_114_A_165_4005_DHDH_A_20260105T034232_20260105T034253_X05010_N_P_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_009_114_A_165_4005_DHDH_A_20260105T034232_20260105T034253_X05010_N_P_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_009_114_A_165_4005_DHDH_A_20260105T034232_20260105T034253_X05010_N_P_J_001.kml"
+      ],
+      "browse_image": "NISAR_L2_PR_GCOV_009_114_A_165_4005_DHDH_A_20260105T034232_20260105T034253_X05010_N_P_J_001.png"
+    },
+    {
+      "role": "after",
+      "description": "After (flood-period acquisition)",
+      "acquisition_date": "2026-01-17",
+      "granule_id": "NISAR_L2_PR_GCOV_010_114_A_165_4005_DHDH_A_20260117T034232_20260117T034254_X05010_N_P_J_001",
+      "data_url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_010_114_A_165_4005_DHDH_A_20260117T034232_20260117T034254_X05010_N_P_J_001/NISAR_L2_PR_GCOV_010_114_A_165_4005_DHDH_A_20260117T034232_20260117T034254_X05010_N_P_J_001.h5",
+      "acquisition_start_utc": "2026-01-17T03:42:32Z",
+      "acquisition_end_utc": "2026-01-17T03:42:55Z",
+      "cycle": 10,
+      "track": 114,
+      "frame": 165,
+      "absolute_orbit": 2462,
+      "orbit_direction": "Ascending",
+      "look_direction": "Left",
+      "frame_coverage": "Partial (full frame flag = False)",
+      "polarization_mode": "DHDH (dual-pol HH/HV)",
+      "covariance_terms_used": [
+        "HHHH",
+        "HVHV"
+      ],
+      "frequency_A": {
+        "center_hz": 1239000000.0,
+        "range_bandwidth_hz": 40000000.0
+      },
+      "native_pixel_spacing_m": 10.0,
+      "native_grid_rows_cols": [
+        33120,
+        32040
+      ],
+      "crs": "EPSG:32736 (UTM 36S, WGS84)",
+      "processing": {
+        "processed_utc": "2026-02-12T04:40:57Z",
+        "software": "GCOV_L_PGE R05.00.8 (ISCE 0.25.7)",
+        "product_edition": "1.0.2",
+        "crid": "X05010",
+        "radiometric_terrain_correction": true,
+        "orbit_type": "MOE",
+        "DEM": "NISAR DEM v1.2 (Copernicus DEM 30 m)"
+      },
+      "rfi_likelihood_freqA": {
+        "HH": 0.001832964434830726,
+        "HV": 0.001832964434830726
+      },
+      "qa_summary": {
+        "open_file": "PASS",
+        "coordinate_grid_cubes": "PASS",
+        "calibration_LUTs": "PASS (crosstalk LUTs skipped)",
+        "identification_group_checks": "FAIL (metadata/identification fields only; pixel-level checks passed)",
+        "nan_inf_fill_near_zero_HHHH_HVHV_freqA_freqB": "PASS",
+        "qa_completed_without_exceptions": "PASS"
+      },
+      "frame_mean_power_freqA": {
+        "HHHH": 0.20304524898529053,
+        "HVHV": 0.037689078599214554,
+        "HHHH_dB": -6.92,
+        "HVHV_dB": -14.24
+      },
+      "metadata_files": [
+        "NISAR_L2_PR_GCOV_010_114_A_165_4005_DHDH_A_20260117T034232_20260117T034254_X05010_N_P_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_010_114_A_165_4005_DHDH_A_20260117T034232_20260117T034254_X05010_N_P_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_010_114_A_165_4005_DHDH_A_20260117T034232_20260117T034254_X05010_N_P_J_001.kml"
+      ],
+      "browse_image": "NISAR_L2_PR_GCOV_010_114_A_165_4005_DHDH_A_20260117T034232_20260117T034254_X05010_N_P_J_001.png"
+    }
+  ],
+  "known_limitations": [
+    "BETA, uncalibrated product",
+    "QA identification check FAIL on all three (metadata only)",
+    "Orbit type MOE (not precise ephemeris)",
+    "No acquisition on 29 Jan 2026 for this track/frame, so the Copernicus reference (27 Jan) remains 10 days after the 'after' scene"
+  ]
+}
