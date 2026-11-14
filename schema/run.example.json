@@ -1,0 +1,11 @@
+{
+  "run_id": "jeddah-demo-001",
+  "aoi_name": "TBD",
+  "crs": "EPSG:4326",
+  "bounds": [39.10, 21.45, 39.30, 21.65],
+  "before": { "scene_id": "TBD", "date": "YYYY-MM-DD", "png": "before.png", "geotiff": "before.tif" },
+  "after":  { "scene_id": "TBD", "date": "YYYY-MM-DD", "png": "after.png",  "geotiff": "after.tif" },
+  "change_map": { "png": "change_map.png", "geotiff": "change_map.tif" },
+  "changes": "changes.geojson",
+  "generated_at": "2026-11-14T00:00:00Z"
+}

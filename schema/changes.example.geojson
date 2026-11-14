@@ -1,0 +1,36 @@
+{
+  "type": "FeatureCollection",
+  "properties": {
+    "run_id": "jeddah-demo-001",
+    "method": "log-ratio threshold",
+    "threshold_db": -3.0
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "chg-0001",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[39.170, 21.540], [39.180, 21.540], [39.180, 21.550], [39.170, 21.550], [39.170, 21.540]]]
+      },
+      "properties": {
+        "change_type": "likely_flood",
+        "area_km2": 1.12,
+        "evidence": {
+          "before_backscatter_db": -8.4,
+          "after_backscatter_db": -18.9,
+          "delta_db": -10.5,
+          "polarization": "HH",
+          "pixel_count": 1240,
+          "reason": "Strong backscatter drop consistent with smooth open water."
+        },
+        "reliability": {
+          "confidence": 0.86,
+          "stable_across_thresholds": 0.9,
+          "doubt_level": "low",
+          "notes": "Detected at 9 of 10 tested thresholds."
+        }
+      }
+    }
+  ]
+}
