@@ -1,0 +1,51 @@
+{
+  "crs": "EPSG:4326",
+  "bounds": [
+    32.664707511361456,
+    -24.735124692072514,
+    33.31324594542537,
+    -24.398953023923
+  ],
+  "bounds_order": "[west, south, east, north] (schema/run.json order)",
+  "leaflet_bounds": [
+    [
+      -24.735124692072514,
+      32.664707511361456
+    ],
+    [
+      -24.398953023923,
+      33.31324594542537
+    ]
+  ],
+  "png_size_pixels": {
+    "width": 1117,
+    "height": 579
+  },
+  "same_bounds_as": "algorithm overlays (flood_candidates_overlay.png, smart_doubt_overlay.png)",
+  "scenes": {
+    "control": {
+      "scene_id": "NISAR_L2_PR_GCOV_008_114_A_165_4005_DHDH_A_20251224T034231_20251224T034253_X05010_N_P_J_001",
+      "date": "2025-12-24",
+      "png": "control.png",
+      "geotiff": "control.tif"
+    },
+    "before": {
+      "scene_id": "NISAR_L2_PR_GCOV_009_114_A_165_4005_DHDH_A_20260105T034232_20260105T034253_X05010_N_P_J_001",
+      "date": "2026-01-05",
+      "png": "before.png",
+      "geotiff": "before.tif"
+    },
+    "after": {
+      "scene_id": "NISAR_L2_PR_GCOV_010_114_A_165_4005_DHDH_A_20260117T034232_20260117T034254_X05010_N_P_J_001",
+      "date": "2026-01-17",
+      "png": "after.png",
+      "geotiff": "after.tif"
+    }
+  },
+  "geotiff_grid": {
+    "crs": "EPSG:32736",
+    "pixel_size_m": 60,
+    "units": "dB (10*log10 HH power)",
+    "nodata": -9999.0
+  }
+}
