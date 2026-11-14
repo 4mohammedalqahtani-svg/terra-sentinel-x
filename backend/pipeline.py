@@ -86,7 +86,7 @@ def _to_db(a):
     return a
 
 
-def read_on_grid(tif: Path, grid=None):
+def read_on_grid(tif: Path, grid=None, categorical: bool = False):
     """Read band 1 of a GeoTIFF reprojected to EPSG:4326.
 
     grid = (transform, width, height) to resample onto an existing grid (so
@@ -111,20 +111,32 @@ def read_on_grid(tif: Path, grid=None):
         if src.nodata is not None:
             src_arr[src_arr == src.nodata] = np.nan
         reproject(src_arr, dst, src_transform=src.transform, src_crs=src.crs, src_nodata=np.nan,
-                  dst_transform=transform, dst_crs="EPSG:4326", dst_nodata=np.nan, resampling=Resampling.bilinear)
+                  dst_transform=transform, dst_crs="EPSG:4326", dst_nodata=np.nan,
+                  resampling=Resampling.nearest if categorical else Resampling.bilinear)
     west, north = transform.c, transform.f
     east, south = west + transform.a * w, north + transform.e * h
     return dst, grid, [round(west, 6), round(south, 6), round(east, 6), round(north, 6)]
 
 
-def overlay_png(arr, path: Path, rgba) -> None:
-    """Non-zero / True pixels -> colour, everything else transparent."""
+# value -> RGBA. Anything not listed (0, nodata) is transparent.
+CHANGE_PALETTE = {1: (0, 140, 255, 170)}
+# Smart Doubt = number of tested thresholds a pixel passes (validation/ legend):
+DOUBT_PALETTE = {1: (255, 214, 0, 170),    # relaxed only      -> most doubt
+                 2: (255, 140, 0, 170),    # relaxed + baseline
+                 3: (220, 0, 160, 170)}    # all three         -> least doubt
+
+
+def overlay_png(arr, path: Path, palette: dict) -> None:
     import numpy as np
     from PIL import Image
 
-    mask = np.nan_to_num(arr) > 0
+    vals = np.nan_to_num(arr, nan=0).round().astype("int32")
     out = np.zeros(arr.shape + (4,), np.uint8)
-    out[mask] = rgba
+    if max(palette) == 1:          # binary mask: any positive value counts
+        out[vals > 0] = palette[1]
+    else:
+        for v, rgba in palette.items():
+            out[vals == v] = rgba
     Image.fromarray(out, "RGBA").save(path, optimize=True)
 
 
@@ -141,12 +153,12 @@ def export_rasters(work: Path, out: Path, bounds_arg) -> list[float]:
         after, _, _ = read_on_grid(work / "after.tif", grid)
         common.save_db_png(_to_db(before), out / "before.png")
         common.save_db_png(_to_db(after), out / "after.png")
-        for name, colour in (("change_map", (0, 140, 255, 170)), ("doubt_map", (255, 40, 120, 170))):
+        for name, colour in (("change_map", CHANGE_PALETTE), ("doubt_map", DOUBT_PALETTE)):
             if (work / f"{name}.png").exists():
                 log(f"  {name}.png provided - copying as is (must match before/after bounds)")
                 shutil.copy2(work / f"{name}.png", out / f"{name}.png")
             elif (work / f"{name}.tif").exists():
-                arr, _, _ = read_on_grid(work / f"{name}.tif", grid)
+                arr, _, _ = read_on_grid(work / f"{name}.tif", grid, categorical=True)
                 overlay_png(arr, out / f"{name}.png", colour)
         return bounds
 
@@ -205,8 +217,9 @@ def build_run(args, work: Path, out: Path, bounds) -> dict:
         run["event"] = args.event or meta["event"]
     if (out / "doubt_map.png").exists():
         run["doubt_map"] = {"png": "doubt_map.png"}
-    if meta.get("method"):
-        run["method"] = meta["method"]
+    for key in ("method", "status", "validation", "limitations"):
+        if meta.get(key):
+            run[key] = meta[key]
     if args.demo or meta.get("demo"):
         run["demo"] = True
     for k in ("before", "after"):

@@ -42,6 +42,9 @@
   <label><input type="checkbox" id="reveal"> Reveal Changes</label>
   <label><input type="checkbox" id="doubt"> Smart Doubt</label>
   <div id="summary" class="muted"></div>
+  <div id="legend" class="muted" hidden>Smart Doubt (thresholds passed):
+    <span style="color:#d4b000">■</span> 1 of 3 · <span style="color:#ff8c00">■</span> 2 of 3 · <span style="color:#dc00a0">■</span> 3 of 3</div>
+  <details id="about" hidden><summary>Status &amp; limitations</summary><div id="aboutBody" class="muted"></div></details>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
@@ -80,6 +83,7 @@ function evidenceCard(p) {
       <tr><td>After</td><td>${fmt(ev.after_backscatter_db)} dB</td></tr>
       <tr><td>Change</td><td><b>${fmt(ev.delta_db)} dB</b></td></tr>
       <tr><td>Area</td><td>${fmt(p.area_km2, 2)} km²</td></tr>
+      ${ev.delta_hv_db !== undefined ? `<tr><td>HV change</td><td>${fmt(ev.delta_hv_db)} dB</td></tr>` : ''}
       <tr><td>Polarisation</td><td>${ev.polarization || '–'}</td></tr>
       <tr><td>Confidence</td><td>${fmt(rel.confidence * 100, 0)}%</td></tr>
       <tr><td>Doubt</td><td class="doubt-${rel.doubt_level}">${rel.doubt_level}${rel.doubt_level === 'high' ? ' – needs review' : ''}</td></tr>
@@ -111,6 +115,13 @@ async function show(entry) {
     `${s.n_changes ?? changes.features.length} change areas · ${fmt(s.total_area_km2, 2)} km² · ${s.n_high_doubt ?? 0} need review`;
 
   map.fitBounds(bounds);  // map needs a view before overlays create their <img>
+  const about = [];
+  if (run.status) about.push(`<b>${run.status.replaceAll('_', ' ')}</b>`);
+  if (run.validation) about.push(`Compared with ${run.validation.reference} (${run.validation.reference_date}): ` +
+    `${run.validation.share_reference_overlapping_nisar_percent}% of the reference flood overlaps our candidates. ${run.validation.agreement}.`);
+  (run.limitations || []).forEach(l => about.push('• ' + l));
+  document.getElementById('aboutBody').innerHTML = about.join('<br>');
+  document.getElementById('about').hidden = !about.length;
   const before = L.imageOverlay(url(run.before.png), bounds).addTo(map);
   const after = L.imageOverlay(url(run.after.png), bounds).addTo(map);
   afterLayer = after;
@@ -128,6 +139,7 @@ async function show(entry) {
     rev ? change.addTo(map) : map.removeLayer(change);
     if (doubt) dbt ? doubt.addTo(map) : map.removeLayer(doubt);
     (rev || dbt) ? poly.addTo(map) : map.removeLayer(poly);
+    document.getElementById('legend').hidden = !(dbt && doubt);
     poly.setStyle(f => dbt
       ? { color: DOUBT[f.properties.reliability.doubt_level], weight: 3, dashArray: f.properties.reliability.doubt_level === 'high' ? '6 4' : null, fillOpacity: 0.15 }
       : { color: COLORS[f.properties.change_type] || '#f0f', weight: 2, dashArray: null, fillOpacity: 0.1 });

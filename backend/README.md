@@ -62,6 +62,31 @@ becomes the default automatically over the demo.
 Then commit `backend/outputs/<run_id>/` and open a PR. GeoTIFFs are never
 committed; only the small web files are.
 
+## How the Chokwe run (`chokwe-2026-01`) was built
+
+Inputs (not in git, shared by the team as zips): role 2's `before.tif`,
+`after.tif`, `meta.json` (HH, dB, EPSG:32736) and role 1's `results_v2/`
+from `algorithm/flood_detection_v2.py`.
+
+```bash
+W=backend/work/chokwe-2026-01 && mkdir -p $W
+cp <data>/before.tif <data>/after.tif $W/
+cp <results_v2>/candidate_joint_HH_HV.tif $W/change_map.tif
+cp <results_v2>/smart_doubt_stability.tif $W/doubt_map.tif
+# meta.json = data meta + method, status, limitations (evidence_v2.json) + validation (copernicus_spatial_comparison.json)
+python backend/vectorize.py --candidate $W/change_map.tif --before $W/before.tif --after $W/after.tif \
+    --stability $W/doubt_map.tif --change-hv <results_v2>/change_HV_db.tif \
+    --run-id chokwe-2026-01 --simplify-m 60 --out $W/changes.geojson
+python backend/pipeline.py --run-id chokwe-2026-01 --collect $W
+```
+
+`vectorize.py` turns the candidate raster into one polygon per connected area
+(>= 25 pixels = 0.09 km2), with mean before/after HH dB and HV change as
+evidence, and Smart Doubt from the stability raster:
+`confidence` = share of the area passing all 3 thresholds, `doubt_level` low
+(>= 75%), medium (>= 40%), high (< 40%). `likely_flood` = low doubt and mean
+after-HH <= -15 dB; everything else stays `possible_flood`.
+
 ## Stage contract (for roles 1, 2, 5, 6)
 
 | Stage | Script (change in `pipeline.json`) | Reads | Writes into `{work}` |
@@ -77,6 +102,7 @@ committed; only the small web files are.
 |---|---|
 | `validate.py` | Checks run folders / GeoJSON against `schema/` (`--all` for every run). Used by CI on every PR. |
 | `pipeline.py` | Runs or collects a run and publishes it to `outputs/<run_id>/`. |
+| `vectorize.py` | Candidate raster + before/after + stability -> `changes.geojson`. |
 | `make_demo.py` | Writes the synthetic `demo-synthetic` run. |
 | `serve.py` | Local dev server, same layout as the public site. |
 | `build_site.py` | Builds `_site/` for GitHub Pages. |

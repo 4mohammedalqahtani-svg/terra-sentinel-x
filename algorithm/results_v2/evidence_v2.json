@@ -1,0 +1,83 @@
+{
+  "project": "TERRA-SENTINEL X",
+  "status": "EXPLORATORY_NOT_VALIDATED",
+  "study_area": "Chokwe, Gaza Province, Mozambique",
+  "dates": {
+    "before": "2026-01-05",
+    "after": "2026-01-17"
+  },
+  "source": "NISAR L2 GCOV BETA V1 HHHH/HVHV and valid-subsample mask",
+  "crs": "EPSG:32736",
+  "pixel_size_m": [
+    60.0,
+    60.0
+  ],
+  "shape_rows_cols": [
+    620,
+    1093
+  ],
+  "valid_pixels_both_dates_and_polarizations": 676866,
+  "valid_coverage_pct": 99.88,
+  "masked_out_pixels": 794,
+  "HH_and_HV_joint_candidate_pixels": 59023,
+  "HH_and_HV_joint_candidate_area_km2_unvalidated": 212.483,
+  "HH_only_heuristic_pixels": 83974,
+  "sensitivity": {
+    "description": "three relative darkening thresholds; counts are not probabilities",
+    "thresholds_HH_decrease_dB_HV_decrease_dB": [
+      [
+        2.0,
+        0.5
+      ],
+      [
+        3.0,
+        1.5
+      ],
+      [
+        4.0,
+        2.5
+      ]
+    ],
+    "candidate_counts_relaxed_baseline_strict": [
+      75809,
+      59023,
+      42675
+    ],
+    "strict_share_of_baseline_pct": 72.3,
+    "stability_raster": "smart_doubt_stability.tif",
+    "stability_value_meaning": {
+      "0": "no tested thresholds",
+      "1": "relaxed only",
+      "2": "relaxed and baseline",
+      "3": "all three thresholds",
+      "255": "invalid"
+    }
+  },
+  "thresholds": {
+    "HH_after_low_percentile": 40,
+    "HH_before_floor_percentile": 15,
+    "HH_after_low_dB": -11.223,
+    "HH_before_floor_dB": -16.842,
+    "min_connected_pixels": 9
+  },
+  "quality_mask_semantics": "GCOV subswath mask: 0 invalid; 1..254 valid; 255 outside radar footprint",
+  "interpretation": "Potential open-water-like SAR darkening only, NOT a confirmed or exhaustive flood extent.",
+  "limitations": [
+    "NISAR GCOV BETA data not yet independently radiometrically validated for this use",
+    "Low radar backscatter can reflect non-flood surface changes",
+    "HH+HV joint darkening may miss vegetation-covered inundation",
+    "All thresholds are heuristic and scene-relative",
+    "No independent ground/optical flood reference has been used yet",
+    "Smart Doubt is threshold sensitivity, NOT a calibrated probability or model confidence",
+    "No prospective forecast is produced"
+  ],
+  "output_files": [
+    "candidate_joint_HH_HV.tif",
+    "candidate_HH_only.tif",
+    "change_HH_db.tif",
+    "change_HV_db.tif",
+    "smart_doubt_stability.tif",
+    "comparison_v2.png",
+    "evidence_v2.json"
+  ]
+}

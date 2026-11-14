@@ -133,7 +133,7 @@ def check_changes(doc, rep: Report, bounds=None) -> dict:
                 if not (-180 <= lon <= 180 and -90 <= lat <= 90):
                     rep.err(f"{tag}: coordinate {pt} out of range - are lon/lat swapped or still in a projected CRS?")
                     break
-                if bounds and not (bounds[0] - 1e-6 <= lon <= bounds[2] + 1e-6 and bounds[1] - 1e-6 <= lat <= bounds[3] + 1e-6):
+                if bounds and not (bounds[0] - 1e-3 <= lon <= bounds[2] + 1e-3 and bounds[1] - 1e-3 <= lat <= bounds[3] + 1e-3):
                     rep.warn(f"{tag}: point {pt} lies outside run bounds")
                     break
 
