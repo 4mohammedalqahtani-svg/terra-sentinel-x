@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare NISAR radar scenes and inspect the evidence behind candidate flood changes.">
+  <title>Terra Sentinel X | Flood change explorer</title>
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="vendor/leaflet/leaflet.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"><i></i></span>
+      <div>
+        <p class="brand-name">Terra Sentinel X</p>
+        <p class="brand-description">NISAR flood change explorer</p>
+      </div>
+    </div>
+    <div class="run-picker">
+      <label for="run">Analysis run</label>
+      <select id="run" disabled></select>
+    </div>
+  </header>
+
+  <main>
+    <header class="scene-header">
+      <div>
+        <p id="event" class="event" hidden></p>
+        <h1 id="location">Flood change explorer</h1>
+      </div>
+      <p id="run-status" class="run-status" hidden></p>
+    </header>
+
+    <div class="workspace">
+      <section class="comparison" aria-label="Radar comparison">
+        <div class="map-frame" id="map-frame">
+          <div id="map" role="region" aria-label="Interactive radar map"></div>
+          <div id="scene-labels" class="scene-labels" hidden>
+            <div class="scene-label"><span>Before</span><time id="before-date"></time></div>
+            <div class="scene-label"><span>After</span><time id="after-date"></time></div>
+          </div>
+          <div id="swipe" class="swipe" hidden>
+            <span class="swipe-line" aria-hidden="true"></span>
+            <input id="slider" type="range" min="0" max="100" value="50" aria-label="Before and after comparison">
+          </div>
+          <div id="map-message" class="map-message">
+            <p id="load-status" role="status">Loading radar scenes…</p>
+            <button id="retry" type="button" hidden>Retry</button>
+          </div>
+        </div>
+        <div class="map-footer">
+          <div class="radar-key">
+            <span id="radar-channel">Backscatter</span>
+            <span>−25 dB</span><span class="radar-gradient" aria-hidden="true"></span><span>0 dB</span>
+          </div>
+          <button id="reset-view" type="button" disabled>Fit scene</button>
+        </div>
+      </section>
+
+      <aside class="analysis" aria-labelledby="analysis-title">
+        <h2 id="analysis-title">Change analysis</h2>
+        <dl class="run-totals">
+          <div><dt>Candidate areas</dt><dd id="area-count">—</dd></div>
+          <div><dt>Candidate extent</dt><dd><span id="area-total">—</span> <small>km²</small></dd></div>
+        </dl>
+        <button id="reveal" class="primary" type="button" aria-pressed="false" disabled>Reveal changes</button>
+        <fieldset id="analysis-controls" class="analysis-controls" disabled>
+          <legend class="sr-only">Map layers</legend>
+          <label class="toggle">
+            <input type="checkbox" id="smart-doubt">
+            <span>Smart Doubt</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="review-only">
+            <span>Needs review only</span>
+          </label>
+        </fieldset>
+        <div class="layer-key" id="layer-key" hidden>
+          <h3 id="legend-title">Change classification</h3>
+          <ul id="legend"></ul>
+          <p id="legend-note"></p>
+        </div>
+        <p id="layer-status" class="layer-status" role="status" hidden></p>
+
+        <div class="inspect" id="inspect" hidden>
+          <label for="region">Find a change area</label>
+          <div class="region-picker">
+            <select id="region"></select>
+            <button id="show-evidence" type="button" disabled>Inspect</button>
+          </div>
+          <p>Select an area on the map to open its Evidence Card.</p>
+        </div>
+
+        <details id="method" class="method" hidden>
+          <summary>Method and limitations</summary>
+          <div id="method-content"></div>
+        </details>
+      </aside>
+    </div>
+    <noscript><p>Enable JavaScript to compare the radar scenes and inspect change areas.</p></noscript>
+  </main>
+</body>
+</html>
