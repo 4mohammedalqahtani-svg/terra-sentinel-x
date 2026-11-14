@@ -83,7 +83,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the branch and pull-request workflow.
 |---|---|---|
 | 1 | Flood Detection Algorithm Developer | Basma (@bassmahossam083-cpu) |
 | 2 | NISAR Data Engineer | Ali (@Ali-AL-Zahrani) |
-| 3 | Frontend & UI Developer | Fares Al-Buqami |
+| 3 | Frontend & UI Developer | Fares Al-Buqami (@faresfaresfares911-max) |
 | 4 | Backend & Integration Developer | Mohammed (@4mohammedalqahtani-svg) |
 | 5 | SAR Signal Processing Engineer | Abdulaziz |
 | 6 | Scientific Validation & Reliability Engineer | @aammmf10 |
