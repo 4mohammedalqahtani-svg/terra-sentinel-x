@@ -38,3 +38,7 @@ data/processed/*
 Thumbs.db
 .vscode/
 .idea/
+
+# Backend build/work folders
+backend/work/
+_site/

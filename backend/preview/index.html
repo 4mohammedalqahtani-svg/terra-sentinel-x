@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TERRA-SENTINEL X · integration preview</title>
+<!--
+  Integration preview (role 4). Proves the outputs in backend/outputs/ load
+  and line up on a map. It is NOT the product UI: frontend/ (role 3) replaces
+  it automatically once frontend/index.html exists. The data-loading code in
+  loadRun() is the reference for how the frontend should read the schema.
+-->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  html, body { margin: 0; height: 100%; font: 14px/1.4 system-ui, sans-serif; }
+  #map { position: absolute; inset: 0; }
+  .panel { position: absolute; z-index: 1000; top: 10px; left: 50px; background: #fff; padding: 10px 12px;
+           border-radius: 8px; box-shadow: 0 2px 10px #0003; max-width: 320px; }
+  .panel h1 { font-size: 15px; margin: 0 0 6px; }
+  .panel label { display: block; margin: 4px 0; }
+  .banner { background: #ffe08a; padding: 4px 8px; border-radius: 4px; margin: 6px 0; font-weight: 600; }
+  .muted { color: #666; font-size: 12px; }
+  #divider { position: absolute; z-index: 900; top: 0; bottom: 0; width: 3px; background: #fff;
+             box-shadow: 0 0 4px #000a; pointer-events: none; }
+  #slider { position: absolute; z-index: 1000; bottom: 24px; left: 10%; width: 80%; }
+  .tag { position: absolute; z-index: 1000; bottom: 48px; background: #000b; color: #fff; padding: 2px 6px; border-radius: 4px; }
+  .card td { padding: 1px 6px 1px 0; } .card h3 { margin: 0 0 4px; font-size: 14px; }
+  .doubt-high { color: #c0145a; font-weight: 700; } .doubt-medium { color: #c77800; } .doubt-low { color: #1a7f37; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="divider"></div>
+<span class="tag" id="tagBefore" style="left:10%">BEFORE</span>
+<span class="tag" id="tagAfter" style="right:10%">AFTER</span>
+<input id="slider" type="range" min="0" max="100" value="50" aria-label="Before/after slider">
+<div class="panel">
+  <h1>TERRA-SENTINEL X <span class="muted">integration preview</span></h1>
+  <select id="runPicker"></select>
+  <div id="demoBanner" class="banner" hidden>Demo data - synthetic, not real NISAR analysis</div>
+  <div id="meta" class="muted"></div>
+  <label><input type="checkbox" id="reveal"> Reveal Changes</label>
+  <label><input type="checkbox" id="doubt"> Smart Doubt</label>
+  <div id="summary" class="muted"></div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const map = L.map('map', { zoomControl: true });
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 18, attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+let layers = [];
+let afterLayer = null;
+
+const COLORS = { likely_flood: '#008cff', possible_flood: '#ffa000', other_change: '#888' };
+const DOUBT = { low: '#1a7f37', medium: '#e08e00', high: '#e0146a' };
+const fmt = (v, d = 1) => (typeof v === 'number' ? v.toFixed(d) : '–');
+
+async function getJSON(url) {
+  const r = await fetch(url, { cache: 'no-store' });
+  if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
+  return r.json();
+}
+
+// Reference loader: runs.json -> run.json -> files relative to run.json.
+async function loadRun(path) {
+  const base = 'data/' + path.replace(/run\.json$/, '');
+  const run = await getJSON('data/' + path);
+  const changes = await getJSON(base + run.changes);
+  const [w, s, e, n] = run.bounds;                 // [west, south, east, north]
+  const bounds = L.latLngBounds([s, w], [n, e]);   // Leaflet wants [lat, lon]
+  return { run, changes, bounds, url: f => base + f };
+}
+
+function evidenceCard(p) {
+  const ev = p.evidence || {}, rel = p.reliability || {};
+  return `<div class="card"><h3>${p.change_type.replace('_', ' ')}</h3>
+    <table>
+      <tr><td>Before</td><td>${fmt(ev.before_backscatter_db)} dB</td></tr>
+      <tr><td>After</td><td>${fmt(ev.after_backscatter_db)} dB</td></tr>
+      <tr><td>Change</td><td><b>${fmt(ev.delta_db)} dB</b></td></tr>
+      <tr><td>Area</td><td>${fmt(p.area_km2, 2)} km²</td></tr>
+      <tr><td>Polarisation</td><td>${ev.polarization || '–'}</td></tr>
+      <tr><td>Confidence</td><td>${fmt(rel.confidence * 100, 0)}%</td></tr>
+      <tr><td>Doubt</td><td class="doubt-${rel.doubt_level}">${rel.doubt_level}${rel.doubt_level === 'high' ? ' – needs review' : ''}</td></tr>
+    </table>
+    <p>${ev.reason || ''}</p><p class="muted">${rel.notes || ''}</p></div>`;
+}
+
+function updateSlider() {
+  const afterImg = afterLayer && afterLayer.getElement();
+  if (!afterImg) return;
+  const pct = +document.getElementById('slider').value / 100;
+  const mapRect = map.getContainer().getBoundingClientRect();
+  const x = mapRect.left + pct * mapRect.width;
+  document.getElementById('divider').style.left = (pct * mapRect.width) + 'px';
+  const r = afterImg.getBoundingClientRect();
+  const cut = Math.max(0, Math.min(r.width, x - r.left));
+  afterImg.style.clipPath = `inset(0 0 0 ${cut}px)`;   // after shown right of the divider
+}
+
+async function show(entry) {
+  layers.forEach(l => map.removeLayer(l)); layers = [];
+  const { run, changes, bounds, url } = await loadRun(entry.path);
+  document.getElementById('demoBanner').hidden = !run.demo;
+  document.getElementById('meta').innerHTML =
+    `${run.aoi_name}<br>Before ${run.before.date} · After ${run.after.date}` +
+    (run.method ? `<br>${run.method.name || ''} ${run.method.threshold_db ?? ''} dB` : '');
+  const s = run.summary || {};
+  document.getElementById('summary').textContent =
+    `${s.n_changes ?? changes.features.length} change areas · ${fmt(s.total_area_km2, 2)} km² · ${s.n_high_doubt ?? 0} need review`;
+
+  map.fitBounds(bounds);  // map needs a view before overlays create their <img>
+  const before = L.imageOverlay(url(run.before.png), bounds).addTo(map);
+  const after = L.imageOverlay(url(run.after.png), bounds).addTo(map);
+  afterLayer = after;
+  const change = L.imageOverlay(url(run.change_map.png), bounds);
+  const doubt = run.doubt_map?.png ? L.imageOverlay(url(run.doubt_map.png), bounds) : null;
+  const poly = L.geoJSON(changes, {
+    style: f => ({ color: COLORS[f.properties.change_type] || '#f0f', weight: 2, fillOpacity: 0.1 }),
+    onEachFeature: (f, l) => l.bindPopup(evidenceCard(f.properties), { maxWidth: 300 })
+  });
+  layers = [before, after, change, poly].concat(doubt ? [doubt] : []);
+
+  const sync = () => {
+    const rev = document.getElementById('reveal').checked;
+    const dbt = document.getElementById('doubt').checked;
+    rev ? change.addTo(map) : map.removeLayer(change);
+    if (doubt) dbt ? doubt.addTo(map) : map.removeLayer(doubt);
+    (rev || dbt) ? poly.addTo(map) : map.removeLayer(poly);
+    poly.setStyle(f => dbt
+      ? { color: DOUBT[f.properties.reliability.doubt_level], weight: 3, dashArray: f.properties.reliability.doubt_level === 'high' ? '6 4' : null, fillOpacity: 0.15 }
+      : { color: COLORS[f.properties.change_type] || '#f0f', weight: 2, dashArray: null, fillOpacity: 0.1 });
+    poly.bringToFront();
+  };
+  document.getElementById('reveal').onchange = sync;
+  document.getElementById('doubt').onchange = sync;
+  sync();
+  setTimeout(updateSlider, 50);
+}
+
+(async () => {
+  try {
+    const index = await getJSON('data/runs.json');
+    const picker = document.getElementById('runPicker');
+    index.runs.forEach(r => picker.add(new Option(`${r.aoi_name}${r.demo ? ' (demo)' : ''}`, r.run_id)));
+    picker.value = index.default;
+    picker.onchange = () => show(index.runs.find(r => r.run_id === picker.value));
+    await show(index.runs.find(r => r.run_id === index.default) || index.runs[0]);
+  } catch (err) {
+    document.getElementById('summary').textContent = 'Could not load outputs: ' + err.message;
+    console.error(err);
+  }
+})();
+document.getElementById('slider').addEventListener('input', updateSlider);
+map.on('move zoom zoomend moveend resize', updateSlider);
+</script>
+</body>
+</html>

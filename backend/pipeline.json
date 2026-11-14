@@ -1,0 +1,32 @@
+{
+  "_comment": "Each stage is run in order from the repo root. {work} is the shared work folder. A stage whose script file does not exist yet is skipped. Each role can change its own 'cmd' here - tell role 4 in your PR.",
+  "stages": [
+    {
+      "name": "data",
+      "owner": "role 2 (Ali)",
+      "cmd": ["python", "data/prepare.py", "--out", "{work}"],
+      "produces": ["before.tif", "after.tif"],
+      "optional_produces": ["meta.json"]
+    },
+    {
+      "name": "sar",
+      "owner": "role 5 (Abdulaziz)",
+      "cmd": ["python", "sar/process.py", "--before", "{work}/before.tif", "--after", "{work}/after.tif", "--out", "{work}"],
+      "produces": ["before.tif", "after.tif"]
+    },
+    {
+      "name": "algorithm",
+      "owner": "role 1 (Bassma)",
+      "cmd": ["python", "algorithm/detect.py", "--before", "{work}/before.tif", "--after", "{work}/after.tif", "--out", "{work}"],
+      "produces": ["changes.geojson"],
+      "optional_produces": ["change_map.tif", "change_map.png"]
+    },
+    {
+      "name": "validation",
+      "owner": "role 6 (aammmf10)",
+      "cmd": ["python", "validation/smart_doubt.py", "--before", "{work}/before.tif", "--after", "{work}/after.tif", "--changes", "{work}/changes.geojson", "--out", "{work}"],
+      "produces": ["changes.geojson"],
+      "optional_produces": ["doubt_map.tif", "doubt_map.png"]
+    }
+  ]
+}
