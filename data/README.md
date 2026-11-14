@@ -9,7 +9,7 @@
 Event: January 2026 Limpopo flood, Chókwè, Mozambique. Scenes, IDs and quality: [`docs/DATA_SOURCES.md`](../docs/DATA_SOURCES.md) and [`scenes_provenance.json`](scenes_provenance.json).
 
 **GeoTIFFs (shared by link, not in git):** `before.tif`, `after.tif`, `control.tif`
-→ **Download:** _LINK_TO_BE_ADDED_ → unzip into `data/processed/`
+→ **Get it:** `terra_sentinel_data.zip`, shared by Ali in the team WhatsApp group → unzip into `data/processed/`
 
 | File | Content |
 |---|---|

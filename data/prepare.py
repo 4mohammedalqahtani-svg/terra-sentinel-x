@@ -8,7 +8,7 @@ Writes into <work>:
     meta.json               partial run.json: AOI, event, scene ids, dates, polarisation, product, track/frame
 
 GeoTIFFs are not committed to git (team rule). Download the shared data zip
-(link in data/README.md) and unzip it into data/processed/, or point --src at
+(shared in the team WhatsApp group, see data/README.md) and unzip it into data/processed/, or point --src at
 the folder that holds before.tif / after.tif.
 Use --with-control to also copy the pre-flood control scene (control.tif).
 """
@@ -48,7 +48,7 @@ def main() -> None:
     for name in names:
         src = Path(args.src) / f"{name}.tif"
         if not src.is_file():
-            raise SystemExit(f"[data] missing {src}: download the data zip (link in data/README.md) into data/processed/")
+            raise SystemExit(f"[data] missing {src}: download the data zip (shared in the team WhatsApp group, see data/README.md) into data/processed/")
         shutil.copy2(src, out / f"{name}.tif")
         print(f"[data] {name}.tif -> {out}")
 
