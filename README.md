@@ -1,7 +1,7 @@
 # TERRA-SENTINEL X
 
 **Flood change detection with NASA-ISRO NISAR radar data.**
-NASA Space Apps Challenge 2026 · Challenge: [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/) · Jeddah local event
+NASA Space Apps Challenge 2026 · Challenge: [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/) · Riyadh local event
 
 > We don't just detect floods. We explain the evidence behind them.
 

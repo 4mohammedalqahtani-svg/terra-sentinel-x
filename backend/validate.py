@@ -2,7 +2,7 @@
 """Check that a run folder follows the shared schema in schema/.
 
 Usage:
-    python backend/validate.py backend/outputs/jeddah-demo-001
+    python backend/validate.py backend/outputs/riyadh-demo-001
     python backend/validate.py path/to/changes.geojson        # one file only
     python backend/validate.py --all                          # every run in backend/outputs/
 

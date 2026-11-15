@@ -8,12 +8,12 @@ Two ways to use it:
 1. Run every stage (scripts are listed in backend/pipeline.json; a stage whose
    script does not exist yet is skipped):
 
-       python backend/pipeline.py --run-id jeddah-2026-11 --aoi "Jeddah, Saudi Arabia"
+       python backend/pipeline.py --run-id riyadh-2026-11 --aoi "Riyadh, Saudi Arabia"
 
 2. Collect files a teammate already produced (e.g. shared by Drive) and
    publish them without running anything:
 
-       python backend/pipeline.py --run-id jeddah-2026-11 --collect ~/Downloads/results
+       python backend/pipeline.py --run-id riyadh-2026-11 --collect ~/Downloads/results
 
 The work/collect folder may contain:
     before.tif, after.tif           GeoTIFF, dB (or linear power, auto-converted)
@@ -230,7 +230,7 @@ def build_run(args, work: Path, out: Path, bounds) -> dict:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--run-id", required=True, help="lowercase id, e.g. jeddah-2026-11")
+    ap.add_argument("--run-id", required=True, help="lowercase id, e.g. riyadh-2026-11")
     ap.add_argument("--aoi", help="area name shown on the site")
     ap.add_argument("--event", help="flood event label")
     ap.add_argument("--collect", type=Path, metavar="DIR", help="don't run stages, publish files from DIR")

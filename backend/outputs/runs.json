@@ -12,7 +12,7 @@
     },
     {
       "run_id": "demo-synthetic",
-      "aoi_name": "Jeddah, Saudi Arabia (synthetic demo)",
+      "aoi_name": "Riyadh, Saudi Arabia (synthetic demo)",
       "event": "Synthetic flood for frontend development - NOT real NISAR data",
       "demo": true,
       "before_date": "2026-10-20",

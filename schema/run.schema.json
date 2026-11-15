@@ -23,11 +23,11 @@
     },
     "aoi_name": {
       "type": "string",
-      "description": "Human-readable area of interest, e.g. 'Jeddah, Saudi Arabia'."
+      "description": "Human-readable area of interest, e.g. 'Riyadh, Saudi Arabia'."
     },
     "event": {
       "type": "string",
-      "description": "Optional flood event label, e.g. 'Jeddah flash flood, Nov 2026'."
+      "description": "Optional flood event label, e.g. 'Riyadh flash flood, Nov 2026'."
     },
     "demo": {
       "type": "boolean",

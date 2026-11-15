@@ -1,8 +1,8 @@
 {
-  "run_id": "jeddah-demo-001",
+  "run_id": "riyadh-demo-001",
   "aoi_name": "TBD",
   "crs": "EPSG:4326",
-  "bounds": [39.10, 21.45, 39.30, 21.65],
+  "bounds": [46.60, 24.60, 46.80, 24.80],
   "before": { "scene_id": "TBD", "date": "2026-10-20", "png": "before.png", "geotiff": "before.tif" },
   "after":  { "scene_id": "TBD", "date": "2026-11-01", "png": "after.png",  "geotiff": "after.tif" },
   "change_map": { "png": "change_map.png", "geotiff": "change_map.tif" },

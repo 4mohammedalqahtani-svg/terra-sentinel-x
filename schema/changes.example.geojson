@@ -1,7 +1,7 @@
 {
   "type": "FeatureCollection",
   "properties": {
-    "run_id": "jeddah-demo-001",
+    "run_id": "riyadh-demo-001",
     "method": "log-ratio threshold",
     "threshold_db": -3.0
   },
@@ -11,7 +11,7 @@
       "id": "chg-0001",
       "geometry": {
         "type": "Polygon",
-        "coordinates": [[[39.170, 21.540], [39.180, 21.540], [39.180, 21.550], [39.170, 21.550], [39.170, 21.540]]]
+        "coordinates": [[[46.670, 24.690], [46.680, 24.690], [46.680, 24.700], [46.670, 24.700], [46.670, 24.690]]]
       },
       "properties": {
         "change_type": "likely_flood",

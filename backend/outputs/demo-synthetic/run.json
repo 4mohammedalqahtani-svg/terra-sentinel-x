@@ -1,14 +1,14 @@
 {
   "run_id": "demo-synthetic",
-  "aoi_name": "Jeddah, Saudi Arabia (synthetic demo)",
+  "aoi_name": "Riyadh, Saudi Arabia (synthetic demo)",
   "event": "Synthetic flood for frontend development - NOT real NISAR data",
   "demo": true,
   "crs": "EPSG:4326",
   "bounds": [
-    39.1,
-    21.45,
-    39.3,
-    21.65
+    46.6,
+    24.6,
+    46.8,
+    24.8
   ],
   "before": {
     "scene_id": "SYNTHETIC-BEFORE",
@@ -48,10 +48,10 @@
     ],
     "speckle_filter": "7x7 mean (boxcar)"
   },
-  "generated_at": "2026-11-14T16:35:54Z",
+  "generated_at": "2026-11-15T11:07:16Z",
   "summary": {
     "n_changes": 4,
-    "total_area_km2": 15.959,
+    "total_area_km2": 15.589,
     "n_high_doubt": 1
   }
 }

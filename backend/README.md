@@ -43,14 +43,14 @@ See `loadRun()` in [`preview/index.html`](preview/index.html) for a working exam
 [`pipeline.json`](pipeline.json). Stages whose script doesn't exist yet are skipped.
 
 ```bash
-python backend/pipeline.py --run-id jeddah-2026-11 --aoi "Jeddah, Saudi Arabia" \
+python backend/pipeline.py --run-id riyadh-2026-11 --aoi "Riyadh, Saudi Arabia" \
     --before-id <scene> --before-date 2026-10-20 --after-id <scene> --after-date 2026-11-01 --polarization HH
 ```
 
 **Option B — collect finished files** (e.g. a teammate shares a folder):
 
 ```bash
-python backend/pipeline.py --run-id jeddah-2026-11 --aoi "Jeddah, Saudi Arabia" --collect path/to/folder
+python backend/pipeline.py --run-id riyadh-2026-11 --aoi "Riyadh, Saudi Arabia" --collect path/to/folder
 ```
 
 The folder needs `before.tif`, `after.tif` (any CRS; dB or linear power) and

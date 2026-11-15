@@ -26,7 +26,7 @@ from PIL import Image
 import common
 
 RUN_ID = "demo-synthetic"
-BOUNDS = [39.10, 21.45, 39.30, 21.65]  # Jeddah area, [W, S, E, N]
+BOUNDS = [46.60, 24.60, 46.80, 24.80]  # Riyadh area, [W, S, E, N]
 THRESHOLD_DB = -3.0
 THRESHOLDS_TESTED = [-1.5, -2.0, -2.5, -3.0, -3.5, -4.0, -4.5, -5.0, -5.5, -6.0]
 
@@ -183,7 +183,7 @@ def main(argv=None) -> int:
 
     run = {
         "run_id": RUN_ID,
-        "aoi_name": "Jeddah, Saudi Arabia (synthetic demo)",
+        "aoi_name": "Riyadh, Saudi Arabia (synthetic demo)",
         "event": "Synthetic flood for frontend development - NOT real NISAR data",
         "demo": True,
         "crs": "EPSG:4326",
