@@ -95,6 +95,12 @@ function evidenceCard({ id, properties }) {
     ["Area", `${area.format(properties.area_km2)} km²`],
     ["Smart Doubt", DOUBT[reliability.doubt_level].label],
   ];
+  if (Number.isFinite(reliability.stable_across_thresholds)) {
+    fields.push([
+      "Threshold Stability",
+      `${count.format(reliability.stable_across_thresholds * 100)}%`,
+    ]);
+  }
   if (evidence.polarization) fields.push(["Polarization", evidence.polarization]);
   if (Number.isFinite(evidence.delta_hv_db)) {
     fields.push(["HV change", `${evidence.delta_hv_db.toFixed(1)} dB`]);
