@@ -63,7 +63,7 @@
     "Low radar backscatter can reflect non-flood surface changes",
     "HH+HV joint darkening may miss vegetation-covered inundation",
     "All thresholds are heuristic and scene-relative",
-    "No independent ground/optical flood reference has been used yet",
+    "Only one exploratory comparison with Copernicus EMS (10 days later, small common area); no validated reference",
     "Smart Doubt is threshold sensitivity, NOT a calibrated probability or model confidence",
     "No prospective forecast is produced"
   ],
