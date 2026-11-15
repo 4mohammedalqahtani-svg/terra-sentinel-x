@@ -1,0 +1,57 @@
+{
+  "test": "Control pair: same algorithm and thresholds on two pre-flood dates",
+  "control_pair": {
+    "before": "2025-12-24",
+    "after": "2026-01-05"
+  },
+  "event_pair": {
+    "before": "2026-01-05",
+    "after": "2026-01-17"
+  },
+  "algorithm": "algorithm/flood_detection_v2.py, unchanged",
+  "valid_pixels": 676866,
+  "pixels": {
+    "control_candidates": 2106,
+    "control_area_km2": 7.58,
+    "control_false_alarm_pct_of_valid": 0.311,
+    "event_candidates": 59023,
+    "event_area_km2": 212.48,
+    "event_to_control_ratio": 28.0,
+    "event_candidates_also_in_control": 271,
+    "event_candidates_also_in_control_pct": 0.46
+  },
+  "map_polygons": {
+    "min_area_px": 25,
+    "control": {
+      "connected_areas": 161,
+      "areas_ge_25px": 9,
+      "area_ge_25px_km2": 1.01
+    },
+    "event": {
+      "connected_areas": 522,
+      "areas_ge_25px": 180,
+      "area_ge_25px_km2": 195.54
+    }
+  },
+  "smart_doubt": {
+    "control_relaxed_baseline_strict": [
+      14191,
+      2106,
+      244
+    ],
+    "control_strict_share_of_baseline_pct": 11.6,
+    "event_relaxed_baseline_strict": [
+      75809,
+      59023,
+      42675
+    ],
+    "event_strict_share_of_baseline_pct": 72.3
+  },
+  "interpretation": "Control candidates estimate the method's background false-alarm level when no flood is expected. This is a plausibility check, NOT an accuracy score.",
+  "limitations": [
+    "Assumes no significant flooding between 2025-12-24 and 2026-01-05 (supported by ASF browse images and stable frame-wide backscatter, -0.8 dB)",
+    "Scene-relative percentile thresholds are recomputed for each pair, as in the original algorithm",
+    "Different 12-day intervals can have different weather and soil moisture",
+    "NISAR GCOV BETA, uncalibrated"
+  ]
+}
