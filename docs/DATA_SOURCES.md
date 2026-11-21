@@ -34,6 +34,26 @@
 
 ## References
 - Challenge page: https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/
+- NISAR L2 GCOV BETA V1 dataset (NASA JPL, ASF DAAC): https://doi.org/10.5067/NIL2GCOV-B1
+- NISAR data portal and user guide (ASF): https://search.asf.alaska.edu/
+- Copernicus EMS Rapid Mapping, activation EMSR857 (Mozambique floods): https://emergency.copernicus.eu/
+- Project write-ups in this repository: `sar/` (scientific explainer), `validation/REPORT.md` (validation and limitations)
 
 ## Software
-List libraries used and their licences here (e.g. rasterio, numpy, Leaflet/MapLibre).
+Open-source software used in this repository (taken from the code's imports, `backend/requirements.txt` and `frontend/vendor/`).
+
+| Software | Used for | Where | Licence |
+|---|---|---|---|
+| Python 3 | All analysis and backend scripts | all folders | PSF License |
+| GDAL / OGR (+ libgdal-hdf5) | Remote read of NISAR HDF5, clipping, reprojection; reading Copernicus shapefiles | `data/`, `validation/` | MIT |
+| rasterio | GeoTIFF reading/writing, reprojection | `data/`, `algorithm/`, `backend/`, `validation/` | BSD-3-Clause |
+| NumPy | Array processing | all Python folders | BSD-3-Clause |
+| SciPy | Connected-area labelling and filtering | `algorithm/`, `backend/`, `validation/` | BSD-3-Clause |
+| Shapely | Polygon simplification | `backend/vectorize.py` | BSD-3-Clause |
+| Matplotlib | Figures and colour maps | `algorithm/`, `validation/` | Matplotlib License (PSF-based, BSD-compatible) |
+| Pillow | PNG previews and web layers | `data/`, `algorithm/`, `backend/` | MIT-CMU (HPND) |
+| jsonschema | Output validation against `schema/` | `backend/validate.py` | MIT |
+| Leaflet 1.9.4 | Interactive map in the website (bundled in `frontend/vendor/leaflet/`) | `frontend/` | BSD-2-Clause |
+| GitHub Actions + GitHub Pages | Validation and deployment of the public demo | `.github/workflows/` | GitHub Terms of Service |
+
+The website uses no third-party basemap tiles or web fonts; all map layers are generated from NISAR data in this repository.
