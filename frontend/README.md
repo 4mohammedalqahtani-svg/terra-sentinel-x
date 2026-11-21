@@ -16,3 +16,7 @@ background. It needs no external map tiles or JavaScript build step.
 The frontend reads `data/runs.json` and resolves all run assets relative to
 their `run.json`. The index selects the initial run, and synthetic runs carry
 a visible label. See the [shared output schema](../schema/README.md).
+- Select **ابدأ الجولة التعريفية** (top of the analysis panel) for a guided
+  Arabic tour that highlights each control and explains its value. Open the
+  page with `?tour` to start the tour on load. Use **Esc** to leave it; the page
+  returns to the state it was in before the tour.

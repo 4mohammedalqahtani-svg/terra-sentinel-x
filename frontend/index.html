@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="styles.css">
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="app.js"></script>
+  <script defer src="tour.js"></script>
 </head>
 <body>
   <header class="masthead">
@@ -61,6 +62,10 @@
       </section>
 
       <aside class="analysis" aria-labelledby="analysis-title">
+        <button id="tour-toggle" class="tour-toggle" type="button" aria-pressed="false" dir="rtl" lang="ar">
+          <span class="tour-toggle-icon" aria-hidden="true"></span>
+          <span><span id="tour-toggle-label">ابدأ الجولة التعريفية</span><small>شرح مبسط لكل أداة وفائدتها</small></span>
+        </button>
         <h2 id="analysis-title">Change analysis</h2>
         <dl class="run-totals">
           <div><dt>Candidate areas</dt><dd id="area-count">—</dd></div>
